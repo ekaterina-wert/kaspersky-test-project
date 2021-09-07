@@ -13,14 +13,16 @@
     <section class="v10">
         <div class="v10__main-container">
             <div class="v10__header">
-                <a href="https://www.kaspersky.ru/" target="_blank" rel="noopener" class="v10__logo"></a>
-                <form class="v10__form">
-                    <select name="currency" id="currency" class="v10__currency-selector">
-<option value="GBP" class="v10__currency">GBP</option>
-<option value="EUR" class="v10__currency">EUR</option>
-<option value="USD" class="v10__currency">USD</option>
+                <div class="v10__header-container">
+                    <a href="https://www.kaspersky.ru/" target="_blank" rel="noopener" class="v10__logo"></a>
+                    <form class="v10__form">
+                        <select name="currency" id="currency" class="v10__currency-selector">
+                            <option value="GBP" class="v10__currency">GBP</option>
+                            <option value="EUR" class="v10__currency">EUR</option>
+                            <option value="USD" class="v10__currency">USD</option>
                 </select>
-                </form>
+                    </form>
+                </div>
             </div>
             <div class="v10__text-container">
                 <h1 class="v10__title">Don’t let malware defeat you</h1>
@@ -89,12 +91,20 @@
                     <button class="buy-block__submit">Buy Now</button>
                 </form>
             </div>
+
+            <div class="sticky-buy-block sticky-buy-block_hidden">
+                <h2 class="sticky-buy-block__title">Kaspersky Internet Security</h2>
+                <button class="sticky-buy-block__open-full"><span class="sticky-buy-block__price">£35.99</span> - 3 Devices, 1 year</button>
+                <button class="sticky-buy-block__submit">Buy Now</button>
+            </div>
+
         </div>
     </section>
 
     <section class="cybersecurity">
 
     </section>
+
     <script src="./pages/index.js"></script>
 </body>
 

@@ -33,6 +33,10 @@
 }
 
 .v10__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 64px;
   display: flex;
   flex-direction: row;
@@ -59,6 +63,48 @@
   z-index: -1;
 }
 
+@keyframes showHeader {
+  0% {
+    height: 0;
+  }
+  50% {
+    height: 80px;
+  }
+  100% {
+    height: 64px;
+  }
+}
+
+.v10__header_fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  animation: showHeader 0.6s ease;
+  z-index: 5;
+}
+.v10__header_fixed::before {
+  background-color: rgba(29, 29, 27, 0.8);
+  z-index: 3;
+}
+
+.v10__header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1166px;
+  width: 81%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+@media screen and (max-width: 862px) {
+  .v10__header-container {
+    width: 92%;
+  }
+}
+
 .v10__logo {
   background-image: url('../images/v10__logo.svg');
   background-position: center;
@@ -67,6 +113,7 @@
   width: 156px;
   height: 30px;
   transition: opacity 0.4s ease;
+  z-index: 5;
 }
 
 .v10__logo:hover {
@@ -74,6 +121,7 @@
 }
 
 .v10__form {
+  z-index: 5;
 }
 
 .v10__currency-selector {
@@ -103,13 +151,13 @@
 }
 
 .v10__text-container {
-  margin: 53px 0 30px;
+  margin: 117px 0 30px;
   padding: 0 29px;
 }
 
 @media screen and (max-width: 1200px) {
   .v10__text-container {
-    margin-top: 361px;
+    margin-top: 425px;
   }
 }
 
@@ -117,13 +165,13 @@
   .v10__text-container {
     margin-bottom: 0;
     padding: 0 10px;
-    margin-top: 150px;
+    margin-top: 214px;
   }
 }
 
 @media screen and (max-width: 450px) {
   .v10__text-container {
-    margin-top: 361px;
+    margin-top: 425px;
   }
 }
 
@@ -241,7 +289,7 @@
   grid-template-columns: repeat(5, max-content);
   padding: 0 26px;
   box-sizing: border-box;
-  z-index: 5;
+  z-index: 2;
 }
 
 @media screen and (max-width: 862px) {
@@ -314,6 +362,7 @@
   grid-template-areas:
     '. discount .'
     'reviews price form';
+  z-index: 1;
 }
 
 @media screen and (max-width: 1200px) {
@@ -337,6 +386,28 @@
       'price'
       'form';
   }
+}
+
+.buy-block_hidden {
+  display: none;
+}
+
+.buy-block_fixed {
+  position: fixed;
+  margin: 0;
+  width: 81%;
+  top: 0;
+  z-index: 2;
+}
+
+.buy-block_sticky {
+  display: grid;
+  position: fixed;
+  margin: 0;
+  bottom: 2px;
+  left: 15px;
+  right: 17px;
+  z-index: 2;
 }
 
 .buy-block__discount {
@@ -462,6 +533,7 @@
   flex-direction: row;
   z-index: 1;
   cursor: pointer;
+  text-decoration: none;
   transition: opacity 0.4s ease;
 }
 
@@ -698,6 +770,14 @@
   }
 }
 
+@media screen and (max-width: 862px) {
+  .buy-block__dropdown {
+    top: 66px;
+    left: 27px;
+    right: 27px;
+  }
+}
+
 .buy-block__dropdown-item {
   color: #000;
   font-size: 14px;
@@ -724,7 +804,6 @@
   background: #ff3748;
   border-radius: 3px;
   cursor: pointer;
-  transition: opacity 0.4s ease;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.25;
@@ -748,6 +827,98 @@
     width: 296px;
     margin: 0 0 16px;
   }
+}
+
+@keyframes showBuyBlock {
+  0% {
+    transform: translate(0, 100px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.sticky-buy-block {
+  position: fixed;
+  bottom: 2px;
+  left: 15px;
+  right: 17px;
+  background: linear-gradient(
+      271.57deg,
+      rgba(0, 168, 142, 0.4) 77.05%,
+      rgba(126, 255, 51, 0.4) 100%
+    ),
+    #23d1ae;
+  height: 67px;
+  display: grid;
+  grid-template-columns: 68% 32%;
+  grid-template-rows: 50% 50%;
+  grid-template-areas:
+    'title button'
+    'tariff button';
+  animation: showBuyBlock 0.6s ease;
+}
+
+.sticky-buy-block_hidden {
+  display: none;
+}
+.sticky-buy-block__title {
+  grid-area: title;
+  font-size: 14px;
+  line-height: 1.71;
+  text-align: left;
+  color: #1d1d1b;
+  margin: 0;
+  padding: 13px 0 7px 12px;
+}
+
+.sticky-buy-block__open-full {
+  grid-area: tariff;
+  outline: none;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 1.43;
+  text-align: left;
+  color: #1d1d1b;
+  margin: 0;
+  padding: 0 0 7px 12px;
+  transition: opacity 0.4s ease;
+}
+
+.sticky-buy-block__open-full:hover {
+  opacity: 0.8;
+}
+
+.sticky-buy-block__price {
+  font-weight: 600;
+}
+
+.sticky-buy-block__submit {
+  grid-area: button;
+  justify-self: end;
+  margin: 12px 15px 7px 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  border: none;
+  height: 48px;
+  width: 78px;
+  background: #ff3748;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  text-align: center;
+  color: #fff;
+  transition: opacity 0.4s ease;
+}
+
+.sticky-buy-block__submit:hover {
+  opacity: 0.8;
 }
 
 .cybersecurity {
