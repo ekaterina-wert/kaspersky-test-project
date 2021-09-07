@@ -92,6 +92,7 @@
   background-position: 53px center;
   object-fit: cover;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .v10__currency {
@@ -240,6 +241,7 @@
   grid-template-columns: repeat(5, max-content);
   padding: 0 26px;
   box-sizing: border-box;
+  z-index: 5;
 }
 
 @media screen and (max-width: 862px) {
@@ -614,19 +616,13 @@
   }
 }
 
-.buy-block__default-hidden {
-  display: none;
-}
-
-.buy-block__hidden-item {
-}
-
 .buy-block__selected-item {
   color: #1d1d1b;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.25;
   height: 48px;
+  width: 191px;
   padding: 12px 8px;
   border: 2px solid #1d1d1b;
   box-sizing: border-box;
@@ -755,5 +751,5 @@
 }
 
 .cybersecurity {
-  min-height: 100px;
+  min-height: 1000px;
 }

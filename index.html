@@ -13,7 +13,7 @@
     <section class="v10">
         <div class="v10__main-container">
             <div class="v10__header">
-                <a href="#" class="v10__logo"></a>
+                <a href="https://www.kaspersky.ru/" target="_blank" rel="noopener" class="v10__logo"></a>
                 <form class="v10__form">
                     <select name="currency" id="currency" class="v10__currency-selector">
 <option value="GBP" class="v10__currency">GBP</option>
@@ -48,10 +48,10 @@
             </div>
             <div class="v10__os-list">
                 <p class="v10__list-name"> Compatible with:</p>
-                <a href="#" class="v10__link"><img src="./images/buy-block__WindowsOS.svg" alt="Windows" class="v10__os-icon"></a>
-                <a href="#" class="v10__link"><img src="./images/buy-block__MacOS.svg" alt="macOS" class="v10__os-icon"></a>
-                <a href="#" class="v10__link"><img src="./images/buy-block__AndroidOS.svg" alt="Android" class="v10__os-icon"></a>
-                <a href="#" class="v10__link"><img src="./images/buy-block__iOS.svg" alt="iOS" class="v10__os-icon"></a>
+                <a href="#" target="_blank" rel="noopener" class="v10__link"><img src="./images/buy-block__WindowsOS.svg" alt="Windows" class="v10__os-icon"></a>
+                <a href="#" target="_blank" rel="noopener" class="v10__link"><img src="./images/buy-block__MacOS.svg" alt="macOS" class="v10__os-icon"></a>
+                <a href="#" target="_blank" rel="noopener" class="v10__link"><img src="./images/buy-block__AndroidOS.svg" alt="Android" class="v10__os-icon"></a>
+                <a href="#" target="_blank" rel="noopener" class="v10__link"><img src="./images/buy-block__iOS.svg" alt="iOS" class="v10__os-icon"></a>
             </div>
 
             <div class="buy-block">
@@ -74,24 +74,16 @@
                 </div>
                 <form class="buy-block__form">
                     <div class="buy-block__custom-select">
-                        <select type="select" class="buy-block__default-hidden">
-                            <option value="1dev-1yr" class="buy-block__hidden-item">1  Device, 1 Year  £27.99</option>
-                            <option value="1dev-2yr" class="buy-block__hidden-item">1 Device, 2 Years £43.99</option>
-                            <option value="3dev-1yr" class="buy-block__hidden-item">3 Devices, 1 Year £35.99</option>
-                            <option value="3dev-2yr" class="buy-block__hidden-item">3 Devices, 2 Years £63.99</option>
-                            <option value="5dev-1yr" class="buy-block__hidden-item">5 Devices, 1 Year £43.99</option>
-                            <option value="5dev-2yr" class="buy-block__hidden-item">5 Devices, 2 Years £71.99</option>
-                        </select>
-                        <div class="buy-block__selected-item">
+                        <div class="buy-block__selected-item" data-tariff="threeDevOneYr">
                             3 Devices, 1 year
                         </div>
                         <div class="buy-block__dropdown buy-block__dropdown_hidden">
-                            <div class="buy-block__dropdown-item">1 Device, 1 Year £27.99</div>
-                            <div class="buy-block__dropdown-item">1 Device, 2 Years £43.99</div>
-                            <div class="buy-block__dropdown-item">3 Devices, 1 Year £35.99</div>
-                            <div class="buy-block__dropdown-item">3 Devices, 2 Years £63.99</div>
-                            <div class="buy-block__dropdown-item">5 Devices, 1 Year £43.99</div>
-                            <div class="buy-block__dropdown-item">5 Devices, 2 Years £71.99</div>
+                            <div class="buy-block__dropdown-item" data-tariff="oneDevOneYr">1 Device, 1 Year </div>
+                            <div class="buy-block__dropdown-item" data-tariff="oneDevTwoYr">1 Device, 2 Years </div>
+                            <div class="buy-block__dropdown-item" data-tariff="threeDevOneYr">3 Devices, 1 Year </div>
+                            <div class="buy-block__dropdown-item" data-tariff="threeDevTwoYr">3 Devices, 2 Years </div>
+                            <div class="buy-block__dropdown-item" data-tariff="fiveDevOneYr">5 Devices, 1 Year </div>
+                            <div class="buy-block__dropdown-item" data-tariff="fiveDevTwoYr">5 Devices, 2 Years </div>
                         </div>
                     </div>
                     <button class="buy-block__submit">Buy Now</button>
@@ -103,6 +95,7 @@
     <section class="cybersecurity">
 
     </section>
+    <script src="./pages/index.js"></script>
 </body>
 
 </html>

@@ -1,250 +1,146 @@
-import './index.css'; // добавьте импорт главного файла стилей
+// import './index.css'; // for webpack
 
-import { Card } from '../components/Card.js';
-import { FormValidator } from '../components/FormValidator.js';
-import { Section } from '../components/Section.js';
-import { UserInfo } from '../components/UserInfo.js';
-import { PopupWithImage } from '../components/PopupWithImage.js';
-import { PopupWithForm } from '../components/PopupWithForm.js';
-import { PopupWithSubmit } from '../components/PopupWithSubmit.js';
-import { Api } from '../components/Api.js';
+const currencyForm = document.querySelector('#currency');
+const currencyArr = document.querySelectorAll('.v10__currency');
 
-const cardsContainer = document.querySelector('.places__container');
-const profile = document.querySelector('.profile');
-const editButton = profile.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
-const editAvatar = document.querySelector('.profile__edit-image');
-const editPopup = document.querySelector('.popup_type_edit-form');
-const userInputAvatar = document.querySelector('.popup__text_type_avatar-url');
-let userId = 0;
+const selectedTariff = document.querySelector('.buy-block__selected-item');
+const tariffDropdown = document.querySelector('.buy-block__dropdown');
+const tariffArr = document.querySelectorAll('.buy-block__dropdown-item')
 
-const userInputs = {
-    name: editPopup.querySelector('.popup__text_type_name'),
-    about: editPopup.querySelector('.popup__text_type_job')
-};
+const newPriceBlock = document.querySelector('.buy-block__price_new');
+const oldPriceBlock = document.querySelector('.buy-block__price_old');
 
-const inputSelectors = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__text',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_invalid',
-    inputErrorClass: 'popup__text_type_invalid',
-    errorClass: 'popup__input-error_active'
-};
+const buyNowButton = document.querySelector('.buy-block__submit');
 
-//создание попапа с картинкой
-const imagePopup = new PopupWithImage(".popup_type_show-image");
-
-//создание попапа с формой редактирования профиля + валидация этой формы
-const editProfilePopup = new PopupWithForm('.popup_type_edit-form', () => {
-    handleEditFormSubmit();
-});
-const editProfileFormValidation = new FormValidator(inputSelectors, editProfilePopup.popup);
-
-//создание попапа с формой добавления новой карточки + валидация этой формы
-const addNewCardPopup = new PopupWithForm('.popup_type_add-card', (data) => {
-    handleAddFormSubmit(data);
-});
-const addFormValidation = new FormValidator(inputSelectors, addNewCardPopup.popup);
-
-//создание попапа с формой изменения аватара + валидация этой формы
-const editAvatarPopup = new PopupWithForm('.popup_type_edit-image', () => {
-    handleEditAvatarFormSubmit();
-});
-const editAvatarFormValidation = new FormValidator(inputSelectors, editAvatarPopup.popup);
-
-//создание попапа с подтверждением
-const confirmationPopup = new PopupWithSubmit('.popup_type_confirm', (evt) => {
-    handleConfirmFormSubmit(evt);
-});
-
-const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__image');
-
-const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
-    headers: {
-        authorization: '9156915b-5169-4dc0-a8af-5bc1618bd83d',
-        'Content-Type': 'application/json'
-    }
-});
-
-//функции создания и добавления карточек 
-function createCard(data) {
-    const card = new Card({
-        data: data,
-        handleCardClick: () => {
-            imagePopup.open(card.link, card.name);
+// tariffs object.
+const tariff = {
+    GBP: {
+        currency: '£',
+        price: {
+            oneDevOneYr: 27,
+            oneDevTwoYr: 43,
+            threeDevOneYr: 35,
+            threeDevTwoYr: 63,
+            fiveDevOneYr: 43,
+            fiveDevTwoYr: 71,
         },
-        handleDeleteCard: () => {
-            confirmationPopup.open();
-            confirmationPopup.card = card.element;
-            confirmationPopup.cardId = card.id;
-        },
-        handleLikeCard: () => {
-            card.like.classList.toggle('place__like-button_active');
-            if (card.like.classList.contains('place__like-button_active')) {
-
-                api.likeCard(card.id)
-                    .then((res) => {
-                        card.likeCounterDisplay.textContent = res.likes.length;
-                    })
-                    .catch((err) => {
-                        console.log('Ошибка при лайке', err)
-                    })
-            } else {
-                api.unlikeCard(card.id)
-                    .then((res) => {
-                        card.likeCounterDisplay.textContent = res.likes.length;
-                    })
-                    .catch((err) => {
-                        console.log('Ошибка при лайке', err)
-                    })
-            }
+        name: {
+            oneDevOneYr: '1 Device, 1 Year',
+            oneDevTwoYr: '1 Device, 2 Years',
+            threeDevOneYr: '3 Devices, 1 Year',
+            threeDevTwoYr: '3 Devices, 2 Years',
+            fiveDevOneYr: '5 Devices, 1 Year',
+            fiveDevTwoYr: '5 Devices, 2 Years',
         }
-    }, '#card');
-    const newCard = card.generateCard(userId);
-
-    return newCard;
-}
-
-function addNewCard(newCard) {
-    cardsContainer.prepend(newCard);
-}
-
-//функция-помощник открытия попапа редактирования профиля
-function handleEditFormOpen() {
-    const userData = userInfo.getUserInfo();
-    userInputs.name.value = userData.userName;
-    userInputs.about.value = userData.userAbout;
-}
-
-//функция-помощник уведомления пользователя о процессе загрузки
-function renderLoading(popup, isLoading, initialSubmitText) {
-    if (isLoading) {
-        popup.textContent = 'Сохранение...';
-    } else {
-        popup.textContent = initialSubmitText;
+    },
+    EUR: {
+        currency: '€',
+        price: {
+            oneDevOneYr: 27,
+            oneDevTwoYr: 43,
+            threeDevOneYr: 35,
+            threeDevTwoYr: 63,
+            fiveDevOneYr: 43,
+            fiveDevTwoYr: 71,
+        },
+        name: {
+            oneDevOneYr: '1 Device, 1 Year',
+            oneDevTwoYr: '1 Device, 2 Years',
+            threeDevOneYr: '3 Devices, 1 Year',
+            threeDevTwoYr: '3 Devices, 2 Years',
+            fiveDevOneYr: '5 Devices, 1 Year',
+            fiveDevTwoYr: '5 Devices, 2 Years',
+        }
+    },
+    USD: {
+        currency: '$',
+        price: {
+            oneDevOneYr: 27,
+            oneDevTwoYr: 43,
+            threeDevOneYr: 35,
+            threeDevTwoYr: 63,
+            fiveDevOneYr: 43,
+            fiveDevTwoYr: 71,
+        },
+        name: {
+            oneDevOneYr: '1 Device, 1 Year',
+            oneDevTwoYr: '1 Device, 2 Years',
+            threeDevOneYr: '3 Devices, 1 Year',
+            threeDevTwoYr: '3 Devices, 2 Years',
+            fiveDevOneYr: '5 Devices, 1 Year',
+            fiveDevTwoYr: '5 Devices, 2 Years',
+        }
     }
+};
+
+// helper for picking the correct block from tariffs object according to selected currency
+function getTariff() {
+    const selectedCurrencyIndex = currencyForm.options.selectedIndex;
+    return tariff[currencyForm.options[selectedCurrencyIndex].value];
 }
 
-//функции обработки форм (сабмит). Создание новой карточки пользователя
-function handleAddFormSubmit(data) {
-    const initialSubmitText = addNewCardPopup.popupSubmit.textContent;
-    renderLoading(addNewCardPopup.popupSubmit, true, initialSubmitText);
+// Open tariffs dropdown and fill options with tariff info in selected currency
+function handleDropdownOpen() {
+    const tariffBlock = getTariff();
 
-    api.addNewCard(data)
-        .then((res) => {
-            addNewCard(createCard(res));
-            addNewCardPopup.close();
-        })
-        .catch((err) => {
-            console.log('Ошибка при создании', err)
-        })
-        .finally(() => {
-            renderLoading(addNewCardPopup.popupSubmit, false, initialSubmitText)
-        })
-}
+    tariffDropdown.classList.toggle('buy-block__dropdown_hidden');
 
-//функции обработки форм (сабмит). Редактирование профиля пользователя
-function handleEditFormSubmit() {
-    const initialSubmitText = editProfilePopup.popupSubmit.textContent;
-    renderLoading(editProfilePopup.popupSubmit, true, initialSubmitText);
-
-    api.editUserData(userInputs)
-        .then(() => {
-            userInfo.setUserInfo(userInputs.name.value, userInputs.about.value);
-            editProfilePopup.close();
-        })
-        .catch((err) => {
-            console.log('Ошибка при сохранении информации пользователя', err)
-        })
-        .finally(() => {
-            renderLoading(editProfilePopup.popupSubmit, false, initialSubmitText)
-        })
-}
-
-//функции обработки форм (сабмит). Редактирование аватара пользователя
-function handleEditAvatarFormSubmit() {
-    const initialSubmitText = editAvatarPopup.popupSubmit.textContent;
-    renderLoading(editAvatarPopup.popupSubmit, true, initialSubmitText);
-
-    api.editUserAvatar(userInputAvatar)
-        .then(() => {
-            userInfo.setUserAvatar(userInputAvatar.value);
-            editAvatarPopup.close()
-        })
-        .catch((err) => {
-            console.log('Ошибка при обновлении аватара', err)
-        })
-        .finally(() => {
-            renderLoading(editAvatarPopup.popupSubmit, false, initialSubmitText)
-        })
-}
-
-//функции обработки форм (сабмит). Подтверждение удаления карточки пользователя
-function handleConfirmFormSubmit(evt) {
-    evt.preventDefault();
-
-    const id = confirmationPopup.cardId;
-    api.deleteMyCard(id)
-        .then(() => {
-            confirmationPopup.deleteCard();
-        })
-        .catch(err => {
-            console.log("Ошибка при удалении", err)
-        });
-
-    confirmationPopup.close();
-}
-
-//получить два объекта с данными (информация пользователя, исходные карточки)
-api.getAllData()
-    .then((argument) => {
-        const [userData, cardsData] = argument;
-
-        //отрисовка данных пользователя
-        userInfo.setUserInfo(userData.name, userData.about);
-        userInfo.setUserAvatar(userData.avatar)
-
-        userId = userData._id;
-
-        //отрисовка карточек
-        const cardList = new Section({
-            items: cardsData,
-            renderer: (item) => {
-                const newCard = createCard(item);
-                cardList.addItem(newCard);
-            },
-        }, '.places__container');
-        cardList.renderItems();
+    tariffArr.forEach((item) => {
+        const option = `${tariffBlock.name[item.dataset.tariff]} ${tariffBlock.currency}${tariffBlock.price[item.dataset.tariff]}.99`;
+        item.textContent = option;
     })
-    .catch((err) => {
-        console.log('Ошибка при загрузке юзердата и массива карточек', err)
-    });
+}
 
-//добавление слушателей попапам
-addNewCardPopup.setEventListeners();
-editProfilePopup.setEventListeners()
-imagePopup.setEventListeners();
-editAvatarPopup.setEventListeners();
-confirmationPopup.setEventListeners();
+// Select currency and set correct Price in Buy-Block
+function handleSetCurrency() {
+    const tariffBlock = getTariff();
 
-// добавление слушателей кнопкам открытия попапов
-addButton.addEventListener('click', () => {
-    addNewCardPopup.open();
-    addFormValidation.enableValidation();
-    addFormValidation.resetValidation();
+    const selectedTariff = document.querySelector('.buy-block__selected-item').dataset.tariff;
+
+    newPriceBlock.innerHTML = tariffBlock.currency + tariffBlock.price[selectedTariff] + '<span class="buy-block__price buy-block__price_new-cents">.99</span>';
+    oldPriceBlock.innerHTML = tariffBlock.currency + Math.trunc(tariffBlock.price[selectedTariff] * 1.2) + '<span class="buy-block__price buy-block__price_old-cents">.99</span>';
+}
+
+// Set selected tariff and price
+function handleSetTariff(item) {
+    const tariffBlock = getTariff();
+
+    const option = tariffBlock.name[item.dataset.tariff];
+    selectedTariff.textContent = option;
+
+    newPriceBlock.innerHTML = tariffBlock.currency + tariffBlock.price[item.dataset.tariff] + '<span class="buy-block__price buy-block__price_new-cents">.99</span>';
+    oldPriceBlock.innerHTML = tariffBlock.currency + Math.trunc(tariffBlock.price[item.dataset.tariff] * 1.2) + '<span class="buy-block__price buy-block__price_old-cents">.99</span>';
+
+    selectedTariff.setAttribute('data-tariff', `${item.dataset.tariff}`)
+    tariffDropdown.classList.toggle('buy-block__dropdown_hidden');
+}
+
+// Submit
+function handleBuyNow(e) {
+    e.preventDefault();
+
+    const tariffBlock = getTariff();
+
+    const selectedTariff = document.querySelector('.buy-block__selected-item').dataset.tariff;
+
+    alert(`You are going to pay ${tariffBlock.currency}${tariffBlock.price[selectedTariff]}.99. You will be redirected to the purchasing page soon.`)
+}
+
+
+// listener for currency options
+currencyForm.addEventListener('change', () => {
+    handleSetCurrency();
 });
 
-editButton.addEventListener('click', () => {
-    handleEditFormOpen();
-    editProfilePopup.open();
-    editProfileFormValidation.enableValidation();
-    editProfileFormValidation.resetValidation();
-});
+// listener for tariff options, set selected item in Buy-Block
+tariffArr.forEach((item) => {
+    item.addEventListener('click', () => {
+        handleSetTariff(item);
+    })
+})
 
-editAvatar.addEventListener('click', () => {
-    editAvatarPopup.open();
-    editAvatarFormValidation.enableValidation();
-    editAvatarFormValidation.resetValidation();
-});
+// listener for tariffs dropdown
+selectedTariff.addEventListener('click', handleDropdownOpen);
+
+// listener for submit
+buyNowButton.addEventListener('click', handleBuyNow);
