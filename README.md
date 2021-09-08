@@ -13,4 +13,5 @@ The first top section form [mockup](https://www.figma.com/file/Nbloz1JiBNlRCVT3c
 **Coding Standards**
 When working on the project follow coding [standards](https://www.w3schools.com/html/html5_syntax.asp)
 
-**You can see my work [here](https://ekaterina-wert.github.io/kaspersky-test-project/)**
+## **Result**
+You can see my accurate work [here](https://ekaterina-wert.github.io/kaspersky-test-project/)
