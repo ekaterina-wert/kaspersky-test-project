@@ -1,5 +1,4 @@
 # Kaspersky-test-project
-
 The first top section form [mockup](https://www.figma.com/file/Nbloz1JiBNlRCVT3cvupmN/Test-Project-for-HR?node-id=0%3A1) into HTML/CSS/JS. 
 
 ## **Requirements:**
@@ -13,3 +12,5 @@ The first top section form [mockup](https://www.figma.com/file/Nbloz1JiBNlRCVT3c
 
 **Coding Standards**
 When working on the project follow coding [standards](https://www.w3schools.com/html/html5_syntax.asp)
+
+**You can see my work [here](https://ekaterina-wert.github.io/kaspersky-test-project/)**
