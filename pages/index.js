@@ -1,4 +1,5 @@
 // import './index.css'; // for webpack
+import { tariff } from "../utils/tariff-plans.js";
 
 const currencyForm = document.querySelector('#currency');
 const currencyArr = document.querySelectorAll('.v10__currency');
@@ -21,131 +22,6 @@ const stickyTariff = document.querySelector('.sticky-buy-block__open-full');
 const reachedBlock = buyBlock.offsetTop;
 
 let scroll = 0;
-
-// tariffs object
-const tariff = {
-    GBP: {
-        currency: '£',
-        plan: {
-            oneDevOneYr: {
-                price: 27,
-                name: '1 Device, 1 Year'
-            },
-            oneDevTwoYr: {
-                price: 43,
-                name: '1 Device, 2 Years'
-            },
-            threeDevOneYr: {
-                price: 35,
-                name: '3 Devices, 1 Year'
-            },
-            threeDevTwoYr: {
-                price: 63,
-                name: '3 Devices, 2 Years'
-            },
-            fiveDevOneYr: {
-                price: 43,
-                name: '5 Devices, 1 Year'
-            },
-            fiveDevTwoYr: {
-                price: 71,
-                name: '5 Devices, 2 Years'
-            },
-        }
-    },
-    EUR: {
-        currency: '€',
-        plan: {
-            oneDevOneYr: {
-                price: 27,
-                name: '1 Device, 1 Year'
-            },
-            oneDevTwoYr: {
-                price: 43,
-                name: '1 Device, 2 Years'
-            },
-            threeDevOneYr: {
-                price: 35,
-                name: '3 Devices, 1 Year'
-            },
-            threeDevTwoYr: {
-                price: 63,
-                name: '3 Devices, 2 Years'
-            },
-            fiveDevOneYr: {
-                price: 43,
-                name: '5 Devices, 1 Year'
-            },
-            fiveDevTwoYr: {
-                price: 71,
-                name: '5 Devices, 2 Years'
-            },
-        }
-    },
-    USD: {
-        currency: '$',
-        plan: {
-            oneDevOneYr: {
-                price: 27,
-                name: '1 Device, 1 Year'
-            },
-            oneDevTwoYr: {
-                price: 43,
-                name: '1 Device, 2 Years'
-            },
-            threeDevOneYr: {
-                price: 35,
-                name: '3 Devices, 1 Year'
-            },
-            threeDevTwoYr: {
-                price: 63,
-                name: '3 Devices, 2 Years'
-            },
-            fiveDevOneYr: {
-                price: 43,
-                name: '5 Devices, 1 Year'
-            },
-            fiveDevTwoYr: {
-                price: 71,
-                name: '5 Devices, 2 Years'
-            },
-        }
-    }
-};
-
-// Buy-Block position according to scrollY
-function stickBlock() {
-    if (scrollY > reachedBlock) {
-
-        if (document.documentElement.clientWidth < 862) {
-            buyBlock.classList.add('buy-block_hidden');
-            stickyBuyBlock.classList.remove('sticky-buy-block_hidden')
-        } else {
-            buyBlock.classList.add('buy-block_fixed');
-        }
-
-    } else {
-        if (document.documentElement.clientWidth < 862) {
-            buyBlock.classList.remove('buy-block_hidden');
-            stickyBuyBlock.classList.add('sticky-buy-block_hidden')
-        } else {
-            buyBlock.classList.remove('buy-block_fixed');
-        }
-    }
-}
-
-// Show Header on backscroll
-function showHeader() {
-    let top = window.pageYOffset;
-
-    if (scroll > 300 && scroll > top) {
-        header.classList.add('v10__header_fixed');
-
-    } else if (scroll < top) {
-        header.classList.remove('v10__header_fixed');
-    }
-    scroll = top;
-}
 
 // helper for picking the correct block from tariffs object according to selected currency
 function getTariff() {
@@ -191,8 +67,42 @@ function handleSetTariff(item) {
     tariffDropdown.classList.toggle('buy-block__dropdown_hidden');
 }
 
+// Show Header on backscroll
+function showHeader() {
+    let top = window.pageYOffset;
+
+    if (scroll > 300 && scroll > top) {
+        header.classList.add('v10__header_fixed');
+
+    } else if (scroll < top) {
+        header.classList.remove('v10__header_fixed');
+    }
+    scroll = top;
+}
+
+// Buy-Block position according to scrollY
+function stickBlock() {
+    if ((scrollY > reachedBlock) && (!buyBlock.classList.contains('buy-block_sticky'))) {
+
+        if (document.documentElement.clientWidth < 862) {
+            buyBlock.classList.add('buy-block_hidden');
+            stickyBuyBlock.classList.remove('sticky-buy-block_hidden')
+        } else {
+            buyBlock.classList.add('buy-block_fixed');
+        }
+
+    } else {
+        if (document.documentElement.clientWidth < 862) {
+            buyBlock.classList.remove('buy-block_hidden');
+            stickyBuyBlock.classList.add('sticky-buy-block_hidden')
+        } else {
+            buyBlock.classList.remove('buy-block_fixed');
+        }
+    }
+}
+
 function handleShowFullBuyBlock() {
-    buyBlock.classList.add('');
+    buyBlock.classList.add('buy-block_sticky');
     stickyBuyBlock.classList.add('sticky-buy-block_hidden')
 }
 
@@ -228,8 +138,8 @@ tariffArr.forEach((item) => {
 // listener for tariffs dropdown
 selectedTariff.addEventListener('click', handleDropdownOpen);
 
+// listener for opening full Buy-Block
 stickyTariff.addEventListener('click', handleShowFullBuyBlock);
-
 
 // listener for submit
 buyNowButton.addEventListener('click', handleBuyNow);
